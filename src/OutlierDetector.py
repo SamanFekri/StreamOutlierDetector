@@ -11,11 +11,8 @@ class OutlierDetector:
 
 
 
-    def push(self, value):
-        pass
-
-
-    def push_async(self, value, result_callback):
-        pass
-
-
+    def push(self, value, callback=None):
+        if callback is not None:
+            callback(self.push(value=value, callback=None))
+        else:
+            pass
