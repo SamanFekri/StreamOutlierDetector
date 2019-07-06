@@ -6,6 +6,7 @@ class OutlierDetector:
         self.size_current_sample = size_current_sample
         self.size_initial_ignore = size_initial_ignore
         self.total_mean = 0
+        self.queue = []
         OutlierDetector.number_instances += 1
 
 
@@ -16,3 +17,5 @@ class OutlierDetector:
 
     def push_async(self, value, result_callback):
         pass
+
+
