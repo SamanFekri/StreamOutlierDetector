@@ -25,6 +25,28 @@ class OutlierDetector:
                 if value > last_mean['without_outliers'] + self.bound_factor_standard_deviation * (last_variance['without_outliers'] ** (1/ 2)) or \
                     value < last_mean['without_outliers'] - self.bound_factor_standard_deviation * (last_variance['without_outliers'] ** (1 / 2)):
                     is_outlier = True
+
+                    # try to correct if majority is outlier
+                    if 2 * self.__len_without_outlier(self.queue) < len(self.queue):
+                        for item in self.queue:
+                            item['outlier'] = not item['outlier']
+                        self.sum['without_outliers'] = sum(xi['v'] for xi in self.queue if xi['outlier'] is False)
+                        last_mean['without_outliers'] = self.sum['without_outliers'] / max(1, self.__len_without_outlier(self.queue))
+                        last_variance['without_outliers'] = sum((xi['v'] - last_mean['without_outliers']) ** 2 for xi in self.queue if xi['outlier'] is False) / self.__len_without_outlier(self.queue)
+
+                        for item in self.queue:
+                            if item['v'] > last_mean['without_outliers'] + self.bound_factor_standard_deviation * (last_variance['without_outliers'] ** (1 / 2)) or \
+                                item['v'] < last_mean['without_outliers'] - self.bound_factor_standard_deviation * (last_variance['without_outliers'] ** (1 / 2)):
+                                item['outlier'] = True
+
+                        self.sum['without_outliers'] = sum(xi['v'] for xi in self.queue if xi['outlier'] is False)
+                        last_mean['without_outliers'] = self.sum['without_outliers'] / max(1, self.__len_without_outlier(self.queue))
+                        last_variance['without_outliers'] = sum((xi['v'] - last_mean['without_outliers']) ** 2 for xi in self.queue if xi['outlier'] is False) / self.__len_without_outlier(self.queue)
+                        if value > last_mean['without_outliers'] + self.bound_factor_standard_deviation * (last_variance['without_outliers'] ** (1 / 2)) or \
+                            value < last_mean['without_outliers'] - self.bound_factor_standard_deviation * (last_variance['without_outliers'] ** (1 / 2)):
+                            is_outlier = True
+                        else:
+                            is_outlier = False
             ############
 
             if len(self.queue) <= self.size_current_sample or self.size_current_sample <= 0:
