@@ -1,7 +1,7 @@
 class OutlierDetector:
     number_instances = 0
 
-    def __init__(self, bound_factor_standard_deviation=2, size_current_sample=20, size_initial_ignore=5):
+    def __init__(self, bound_factor_standard_deviation=3, size_current_sample=20, size_initial_ignore=10):
         self.bound_factor_standard_deviation = bound_factor_standard_deviation
         self.size_current_sample = size_current_sample
         self.size_initial_ignore = size_initial_ignore
@@ -13,7 +13,8 @@ class OutlierDetector:
 
     def push(self, value, callback=None):
         if callback is not None:
-            return callback(self.push(value=value, callback=None))
+            callback(self.push(value=value, callback=None))
+            return None
         else:
             last_mean = {
                 'total': self.sum['total'] / max(1, len(self.queue)),
@@ -25,7 +26,6 @@ class OutlierDetector:
                 if value > last_mean['without_outliers'] + self.bound_factor_standard_deviation * (last_variance['without_outliers'] ** (1/ 2)) or \
                     value < last_mean['without_outliers'] - self.bound_factor_standard_deviation * (last_variance['without_outliers'] ** (1 / 2)):
                     is_outlier = True
-
                     # try to correct if majority is outlier
                     if 2 * self.__len_without_outlier(self.queue) < len(self.queue):
                         for item in self.queue:
