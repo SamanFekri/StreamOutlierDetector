@@ -31,14 +31,12 @@ is_outlier = outlier_detector.push(value=your_value, callback=result)
 
 ## Result
 I test this class and show the functionality of it on a chart.  
-<span style="color:red">x</span> are the outliers we detect.  
-<span style="color:blue">🔵</span> are the normal values.  
-<span style="color:red">-</span> are the bound of outlier detection.  
+❌ are the outliers we detect.  
+🔵 are the normal values.  
+<span> - </span> are the bound of outlier detection.  
 
 Without bound                           | With bounds
 ----------------------------------------| ------------------------------ 
 ![]( ./images/test_result_normal.png)   | ![]( ./images/test_result.png) 
-
-
  
 
