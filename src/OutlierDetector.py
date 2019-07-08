@@ -67,7 +67,7 @@ class OutlierDetector:
             self.variance['total'] = sum(((xi['v'] - mean['total']) ** 2) for xi in self.queue) / len(self.queue)
             self.variance['without_outliers'] = sum((xi['v'] - mean['without_outliers']) ** 2 for xi in self.queue if xi['outlier'] is False) / self.__len_without_outlier(self.queue)
 
-            return is_outlier
+            return is_outlier, last_mean['without_outliers'], last_variance['without_outliers']
 
     @staticmethod
     def __len_without_outlier(mlist):
