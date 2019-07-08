@@ -19,19 +19,19 @@ bound = 3
 outlier_detector = OutlierDetector(bound)
 result = []
 for i in range(len(tmp)):
-    is_outlier, mean, var = outlier_detector.push(tmp[i])
-    result.append([i, is_outlier, tmp[i], mean, (var ** (1/2))])
+    is_outlier = outlier_detector.push(tmp[i])
+    result.append([i, is_outlier, tmp[i]])
 
 # index_bound = [i for [i, r, x, m, v] in result]
 # upper_bound = [(m + bound * v) for [i, r, x, m, v] in result]
 # lower_bound = [(m - bound * v) for [i, r, x, m, v] in result]
 # mean_bound = [m for [i, r, x, m, v] in result]
 
-x_normal = [i for [i, r, x, m, v] in result if r is False]
-y_normal = [x for [i, r, x, m, v] in result if r is False]
+x_normal = [i for [i, r, x] in result if r is False]
+y_normal = [x for [i, r, x] in result if r is False]
 
-x_out = [i for [i, r, x, m, v] in result if r is True]
-y_out = [x for [i, r, x, m, v] in result if r is True]
+x_out = [i for [i, r, x] in result if r is True]
+y_out = [x for [i, r, x] in result if r is True]
 
 # plt.plot(x_normal, y_normal, 'bo',
 #          x_out, y_out, 'rx',
