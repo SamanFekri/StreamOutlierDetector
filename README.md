@@ -28,6 +28,15 @@ outlier_detector = OutlierDetector(bound_factor_standard_deviation=3, size_curre
 
 is_outlier = outlier_detector.push(value=your_value, callback=result)
 ```
+### Help
+``bound_factor_standard_deviation`` is the factor that multiple with standard deviation. ``|value - mean| > bound_factor_standard_deviation * satandard deviation`` is the outlier.  
+``size_current_sample`` is the size of array is effective for finding outlier.  
+``size_initial_ignore`` is the number of first value we ignore and learn from them.  
+
+Warning ⚠                               |
+----------------------------------------| 
+if the outlier be in the first ``size_initial_ignore`` we return it is not outlier and more dangerous we learn it and ruined the mean and variance for a while| 
+
 
 ## Result
 I test this class and show the functionality of it on a chart.  
