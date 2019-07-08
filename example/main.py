@@ -6,11 +6,11 @@ import matplotlib.pyplot as plt
 # tmp = [1]
 tmp = []
 for i in range(100):
-    val = random.uniform(1., 10.0)
+    val = random.uniform(1.0, 10.0)
     tmp.append(val)
 
-# tmp[19] = 20
-# tmp[76] = 100
+tmp[19] = 20
+tmp[76] = 100
 
 bound = 3
 
@@ -33,7 +33,7 @@ y_out = [x for [i, r, x, m, v] in result if r is True]
 
 plt.plot(x_normal, y_normal, 'bo',
          x_out, y_out, 'rx',
-         # index_bound, upper_bound, 'r--',
-         # index_bound, lower_bound, 'r--',
+         index_bound, upper_bound, 'r--',
+         index_bound, lower_bound, 'r--',
          index_bound, mean_bound, 'y--')
 plt.show()

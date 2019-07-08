@@ -49,21 +49,23 @@ class OutlierDetector:
                     #         is_outlier = False
             ############
 
-            if len(self.queue) <= self.size_current_sample or self.size_current_sample <= 0:
+            if len(self.queue) < self.size_current_sample or self.size_current_sample <= 0:
                 self.queue.append({'v':value, 'outlier':is_outlier})
                 self.sum['total'] += value
                 if is_outlier is False:
                     self.sum['without_outliers'] += value
             else:
                 old_val = self.queue.pop(0)
+                self.sum['total'] += value - old_val['v']
                 self.queue.append({'v':value, 'outlier':is_outlier})
                 if is_outlier is False:
                     self.sum['without_outliers'] += value
-                elif old_val['outlier'] is False:
+                if old_val['outlier'] is False:
                     self.sum['without_outliers'] -= old_val['v']
 
             mean = {'total': self.sum['total'] / len(self.queue),
                     'without_outliers': self.sum['without_outliers'] / self.__len_without_outlier(self.queue)}
+
             self.variance['total'] = sum(((xi['v'] - mean['total']) ** 2) for xi in self.queue) / len(self.queue)
             self.variance['without_outliers'] = sum((xi['v'] - mean['without_outliers']) ** 2 for xi in self.queue if xi['outlier'] is False) / self.__len_without_outlier(self.queue)
 
