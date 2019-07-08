@@ -6,23 +6,24 @@ import matplotlib.pyplot as plt
 # tmp = [1]
 tmp = []
 for i in range(100):
-    val = random.uniform(1.0, 10.0)
+    val = random.uniform(1., 10.0)
     tmp.append(val)
 
-tmp[32] = 45
-tmp[76] = 100
+# tmp[19] = 20
+# tmp[76] = 100
 
 bound = 3
 
-outlier_detector = OutlierDetector(3)
+outlier_detector = OutlierDetector(bound)
 result = []
 for i in range(len(tmp)):
     is_outlier, mean, var = outlier_detector.push(tmp[i])
-    result.append([i, is_outlier, tmp[i], mean, var])
+    result.append([i, is_outlier, tmp[i], mean, (var ** (1/2))])
 
 index_bound = [i for [i, r, x, m, v] in result]
 upper_bound = [(m + bound * v) for [i, r, x, m, v] in result]
 lower_bound = [(m - bound * v) for [i, r, x, m, v] in result]
+mean_bound = [m for [i, r, x, m, v] in result]
 
 x_normal = [i for [i, r, x, m, v] in result if r is False]
 y_normal = [x for [i, r, x, m, v] in result if r is False]
@@ -30,5 +31,9 @@ y_normal = [x for [i, r, x, m, v] in result if r is False]
 x_out = [i for [i, r, x, m, v] in result if r is True]
 y_out = [x for [i, r, x, m, v] in result if r is True]
 
-plt.plot(x_normal, y_normal, 'bo', x_out, y_out, 'rx', index_bound, upper_bound, 'r--', index_bound, lower_bound, 'r--')
+plt.plot(x_normal, y_normal, 'bo',
+         x_out, y_out, 'rx',
+         # index_bound, upper_bound, 'r--',
+         # index_bound, lower_bound, 'r--',
+         index_bound, mean_bound, 'y--')
 plt.show()
