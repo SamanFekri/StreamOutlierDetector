@@ -7,7 +7,10 @@ In this project we have some assumption:
 
 
 ### Usage
-I do not publish it in the pip yet ☹️
+```bash
+pip install outlierDetectorOnline
+pip install --upgrade outlierDetectorOnline
+```
 
 ```python
 from src.OutlierDetector import OutlierDetector
