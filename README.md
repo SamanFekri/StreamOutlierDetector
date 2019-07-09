@@ -18,7 +18,7 @@ pip install --upgrade pyood # if you want update package
 ```python
 from pyood import OutlierDetector
 
-outlier_detector = OutlierDetector(bound_factor_standard_deviation=3, window_size=20, size_initial_ignore=10)
+outlier_detector = OutlierDetector(bound_factor_standard_deviation=3, window_size=20, first_learning_number=10)
 
 is_outlier = outlier_detector.push(your_value)
 ```
@@ -30,7 +30,7 @@ from pyood import OutlierDetector
 def result(is_outlier):
     print(is_outlier)
 
-outlier_detector = OutlierDetector(bound_factor_standard_deviation=3, window_size=20, size_initial_ignore=10)
+outlier_detector = OutlierDetector(bound_factor_standard_deviation=3, window_size=20, first_learning_number=10)
 
 is_outlier = outlier_detector.push(value=your_value, callback=result)
 ```
