@@ -58,30 +58,30 @@ class OutlierDetector:
             ############
 
             if len(self.queue) < self.size_current_sample or self.size_current_sample <= 0:
-                self.queue.append({OutlierDetector.VALUE:value, OutlierDetector.IS_OUTLIER:is_outlier})
-                self.sum[OutlierDetector.TOTAL] += value
+                self.queue.append({'v':value, 'outlier':is_outlier})
+                self.sum['total'] += value
                 if is_outlier is False:
-                    self.sum[OutlierDetector.WITHOUT_OUTLIERS] += value
+                    self.sum['without_outliers'] += value
             else:
                 old_val = self.queue.pop(0)
-                self.sum[OutlierDetector.TOTAL] += value - old_val[OutlierDetector.VALUE]
-                self.queue.append({OutlierDetector.VALUE:value, OutlierDetector.IS_OUTLIER:is_outlier})
+                self.sum['total'] += value - old_val['v']
+                self.queue.append({'v':value, 'outlier':is_outlier})
                 if is_outlier is False:
-                    self.sum[OutlierDetector.WITHOUT_OUTLIERS] += value
-                if old_val[OutlierDetector.IS_OUTLIER] is False:
-                    self.sum[OutlierDetector.WITHOUT_OUTLIERS] -= old_val[OutlierDetector.VALUE]
+                    self.sum['without_outliers'] += value
+                if old_val['outlier'] is False:
+                    self.sum['without_outliers'] -= old_val['v']
 
-            mean = {OutlierDetector.TOTAL: self.sum[OutlierDetector.TOTAL] / len(self.queue),
-                    OutlierDetector.WITHOUT_OUTLIERS: self.sum[OutlierDetector.WITHOUT_OUTLIERS] / self.__len_without_outlier(self.queue)}
+            mean = {'total': self.sum['total'] / len(self.queue),
+                    'without_outliers': self.sum['without_outliers'] / self.__len_without_outlier(self.queue)}
 
-            self.variance[OutlierDetector.TOTAL] = sum(((xi[OutlierDetector.VALUE] - mean[OutlierDetector.TOTAL]) ** 2) for xi in self.queue) / len(self.queue)
-            self.variance[OutlierDetector.WITHOUT_OUTLIERS] = sum((xi[OutlierDetector.VALUE] - mean[OutlierDetector.WITHOUT_OUTLIERS]) ** 2 for xi in self.queue if xi[OutlierDetector.IS_OUTLIER] is False) / self.__len_without_outlier(self.queue)
+            self.variance['total'] = sum(((xi['v'] - mean['total']) ** 2) for xi in self.queue) / len(self.queue)
+            self.variance['without_outliers'] = sum((xi['v'] - mean['without_outliers']) ** 2 for xi in self.queue if xi['outlier'] is False) / self.__len_without_outlier(self.queue)
 
             return is_outlier
 
     @staticmethod
     def __len_without_outlier(mlist):
-        return len([item for item in mlist if item[OutlierDetector.IS_OUTLIER] is False])
+        return len([item for item in mlist if item['outlier'] is False])
 
     @staticmethod
     def __detect_outlier(value, mean, variance, factor):
