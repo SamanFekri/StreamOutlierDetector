@@ -6,14 +6,17 @@ In this project we have some assumption:
 -   If more than half of sample array be in outlier then this project assume the majority is not outlier and calculate outlier detection for the sample again
 
 
-### Usage
+## Usage
+
+### install
 ```bash
-pip install outlierDetectorOnline
-pip install --upgrade outlierDetectorOnline
+pip install pyood
+pip install --upgrade pyood # if you want update package
 ```
 
+### How use it
 ```python
-from src.OutlierDetector import OutlierDetector
+from pyood import OutlierDetector
 
 outlier_detector = OutlierDetector(bound_factor_standard_deviation=3, window_size=20, size_initial_ignore=10)
 
@@ -22,7 +25,7 @@ is_outlier = outlier_detector.push(your_value)
 
 if you want, you can use it with callback function
 ```python
-from src.OutlierDetector import OutlierDetector
+from pyood import OutlierDetector
 
 def result(is_outlier):
     print(is_outlier)
