@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 setuptools.setup(
     name='pyood',
     packages=['pyood'],
-    version='0.2',
+    version='0.2.1',
     scripts=['pyood/OutlierDetector.py'] ,
     author="Saman Fekri",
     author_email="samanf74@gmail.com",
