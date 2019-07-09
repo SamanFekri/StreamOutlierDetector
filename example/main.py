@@ -40,5 +40,5 @@ y_out = [x for [i, r, x] in result if r is True]
 # plt.savefig('./images/test_result.png')
 plt.plot(x_normal, y_normal, 'bo',
          x_out, y_out, 'rx')
-plt.savefig('./images/test_result_normal.png')
+# plt.savefig('./images/test_result_normal.png')
 plt.show()

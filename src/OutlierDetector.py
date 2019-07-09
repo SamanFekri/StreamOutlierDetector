@@ -1,10 +1,10 @@
 class OutlierDetector:
     number_instances = 0
 
-    def __init__(self, bound_factor_standard_deviation=3, size_current_sample=20, size_initial_ignore=10):
+    def __init__(self, bound_factor_standard_deviation=3, window_size=20, first_learning_number=10):
         self.bound_factor_standard_deviation = bound_factor_standard_deviation
-        self.size_current_sample = size_current_sample
-        self.size_initial_ignore = size_initial_ignore
+        self.size_current_sample = window_size
+        self.first_learning_number = first_learning_number
         self.total_sum = {'total': 0 , 'without_outliers': 0}
         self.sum = {'total': 0 , 'without_outliers': 0}
         self.variance = {'total': 0 , 'without_outliers': 0}
@@ -22,7 +22,7 @@ class OutlierDetector:
             last_variance = self.variance
             ############
             is_outlier = False
-            if len(self.queue) > self.size_initial_ignore:
+            if len(self.queue) > self.first_learning_number:
                 if value > last_mean['without_outliers'] + self.bound_factor_standard_deviation * (last_variance['without_outliers'] ** (1/ 2)) or \
                     value < last_mean['without_outliers'] - self.bound_factor_standard_deviation * (last_variance['without_outliers'] ** (1 / 2)):
                     is_outlier = True
